@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: users_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  
+
+  user-service:
+    build:
+      context: ./demo
+      dockerfile: Dockerfile
+    container_name: user_service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/users_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8080:8080"
+
+  device-service:
+    build:
+      context: ./devicesManagement
+      dockerfile: Dockerfile
+    container_name: device_service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/devices_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8088:8088"
