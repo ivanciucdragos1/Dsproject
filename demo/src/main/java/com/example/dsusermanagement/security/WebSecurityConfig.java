@@ -9,11 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +23,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
-        http.csrf()
+        http.cors().and().csrf()
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/auth/**")
@@ -51,12 +47,25 @@ public class WebSecurityConfig {
 //        CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedOrigins(List.of("*"));
 //        configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "DELETE"));
-//        configuration.setAllowedHeaders((List.of("Authorization", "Content-Type")));
+//        configuration.setAllowedHeaders((List.of("*")));
 //
 //        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 //
 //        source.registerCorsConfiguration("/**",configuration);
 //
 //        return source;
+//    }
+//
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**")
+//                        .allowedMethods("*")
+//                        .allowedOrigins("*")
+//                        .allowedHeaders("*");
+//            }
+//        };
 //    }
 }

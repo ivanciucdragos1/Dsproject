@@ -6,13 +6,11 @@ import com.example.dsusermanagement.entities.User;
 import com.example.dsusermanagement.security.JwtService;
 import com.example.dsusermanagement.services.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.example.dsusermanagement.UrlMappings.AUTH;
 
+@CrossOrigin
 @RestController
 @RequestMapping(AUTH)
 @RequiredArgsConstructor

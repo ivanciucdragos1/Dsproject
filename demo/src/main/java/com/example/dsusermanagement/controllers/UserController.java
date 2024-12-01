@@ -11,7 +11,6 @@ import java.util.UUID;
 import static com.example.dsusermanagement.UrlMappings.USERS;
 
 @RestController
-@CrossOrigin
 @RequestMapping(USERS)
 @RequiredArgsConstructor
 public class UserController {
