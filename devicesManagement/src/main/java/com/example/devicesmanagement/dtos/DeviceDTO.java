@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
 import java.util.UUID;
 
 @Builder
@@ -18,5 +17,4 @@ public class DeviceDTO {
     private String description;
     private String address;
     private int maxHrConsumption;
-
 }

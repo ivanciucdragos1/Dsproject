@@ -21,9 +21,10 @@ public class DeviceService {
     private final DeviceMapper deviceMapper;
 
     public List<DeviceDTO> getDevices(){
-        return deviceRepository.findAll().stream()
+        List<DeviceDTO> devices = deviceRepository.findAll().stream()
                 .map(deviceMapper::toDto)
                 .collect(Collectors.toList());
+        return devices;
     }
 
     public void  deleteDevice(UUID id){
@@ -45,9 +46,10 @@ public class DeviceService {
     }
 
     public List<DeviceDTO> getUserDevices(UUID userId){
-        return deviceRepository.findAllByUserId(userId).stream()
+        List<DeviceDTO> devices = deviceRepository.findAllByUserId(userId).stream()
                 .map(deviceMapper::toDto)
                 .collect(Collectors.toList());
+        return devices;
     }
 
     public List<DeviceDTO> editUserDevices(UUID oldUserId, UUID newUserId){
@@ -63,6 +65,10 @@ public class DeviceService {
     }
 
     public void deleteAllByUserId(UUID userId){
-        deviceRepository.deleteAllByUserId(userId);
+        List<Device> devices = deviceRepository.findAllByUserId(userId);
+        System.out.println(devices.size());
+        if(devices.size()!=0) {
+            deviceRepository.deleteAllByUserId(userId);
+        }
     }
 }

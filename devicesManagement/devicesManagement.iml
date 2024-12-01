@@ -7,6 +7,7 @@
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
           <root url="file://$MODULE_DIR$/src/main/resources" />
+          <root url="file://$MODULE_DIR$/target/generated-sources/annotations" />
         </sourceRoots>
       </configuration>
     </facet>
@@ -14,7 +15,9 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="devicesManagement" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
@@ -29,6 +32,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -92,7 +96,6 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:3.3.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:6.1.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:6.1.14" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.16" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:6.1.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:3.3.5" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:5.1.0" level="project" />
@@ -133,5 +136,10 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:6.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:6.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:6.3.4" level="project" />
+    <orderEntry type="library" name="Maven: com.rabbitmq:amqp-client:5.16.0" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:2.0.16" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-websocket:3.3.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-messaging:6.1.14" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:6.1.14" level="project" />
   </component>
 </module>

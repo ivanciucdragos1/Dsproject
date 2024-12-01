@@ -49,6 +49,7 @@ public class DeviceController {
 
     @DeleteMapping("/users")
     public void deleteUserDevices(@RequestParam UUID userId){
+        System.out.println("here");
         deviceService.deleteAllByUserId(userId);
     }
 }

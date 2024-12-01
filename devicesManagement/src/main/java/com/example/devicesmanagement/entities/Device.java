@@ -6,10 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "devices")
+@Table(name = "device")
 @Data
 @Builder
 @AllArgsConstructor
@@ -31,5 +32,4 @@ public class Device {
 
     @Column(name = "max_hr_consumption")
     private int maxHrConsumption;
-
 }
