@@ -1,6 +1,10 @@
-FROM postgres:13
+FROM maven:3.8.5-openjdk-17 AS build
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=root
-
-COPY init.sql /docker-entrypoint-initdb.d/
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/MonitoringManagement-0.0.1-SNAPSHOT.jar user-service.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "user-service.jar"]

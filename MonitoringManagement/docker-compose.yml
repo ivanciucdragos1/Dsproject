@@ -1,25 +1,28 @@
 version: '3.8'
 
 services:
-  db:
-    build: 
+  postgres:
+    image: postgres:latest
+    container_name: energy_db_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: energydb
+    ports:
+      - "5555:5432"
+    volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+
+  java-app:
+    build:
       context: .
       dockerfile: Dockerfile
-    container_name: postgres_energy
-    environment:
-      POSTGRES_DB: postgres        
-      POSTGRES_USER: postgres               
-      POSTGRES_PASSWORD: root
+    container_name: java_app_container
     ports:
-      - "5433:5433"
-    expose:
-      - "5433"                      
-    volumes:
-      - pgdata:/var/lib/postgresql/data  
-
-volumes:
-  pgdata:
-
-networks:
-  app-network:
-    name: app-network
+      - "8089:8089"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://energy_db_container:5432/energydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
