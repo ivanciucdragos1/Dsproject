@@ -5,34 +5,78 @@ services:
     image: postgres:13
     container_name: postgres_db
     environment:
-      POSTGRES_DB: users_db
+      POSTGRES_DB: users_db, energy_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
     ports:
       - "5432:5432"
+    networks:
+      - application_network
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  reverse-proxy:
+    image: traefik:v3.2
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --accesslog=true
+      - --accesslog.filepath=/var/log/traefik/access.log
+      - --log.level=DEBUG
+      - --entrypoints.web.address=:80
+    ports:
+      - "80:80"
+      - "8080:8080"
+    networks:
+      - application_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - traefik.http.middlewares.cors.headers.accesscontrolalloworigin=*
+      - traefik.http.middlewares.cors.headers.accesscontrolallowmethods=GET,POST,PUT,DELETE,OPTIONS
+      - traefik.http.middlewares.cors.headers.accesscontrolallowheaders=Content-Type,Authorization
 
   user-service:
     build:
       context: ./demo
       dockerfile: Dockerfile
-    container_name: user_service
+    #container_name: user_service
+    deploy:
+      replicas: 2
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/users_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root
-    ports:
-      - "8080:8080"
+    networks:
+      - application_network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.user-service.rule=Host(`user-service`) || PathPrefix(`/user-service`)
+      - traefik.http.middlewares.user-service-strip.stripprefix.prefixes=/user-service
+      - traefik.http.routers.user-service.middlewares=user-service-strip,cors
+      - traefik.http.services.user-service.loadbalancer.port=8081
 
   device-service:
     build:
       context: ./devicesManagement
       dockerfile: Dockerfile
-    container_name: device_service
+    #container_name: device_service
+    deploy:
+      replicas: 2
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/devices_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: root
-    ports:
-      - "8088:8088"
+    networks:
+      - application_network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.device-service.rule=Host(`device-service`) || PathPrefix(`/device-service`)
+      - traefik.http.middlewares.device-service-strip.stripprefix.prefixes=/device-service
+      - traefik.http.routers.device-service.middlewares=device-service-strip,cors
+      - traefik.http.services.device-service.loadbalancer.port=8088
+
+
+networks:
+  application_network:
+    driver: bridge
