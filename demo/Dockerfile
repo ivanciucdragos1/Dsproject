@@ -6,5 +6,5 @@ RUN mvn clean package -DskipTests
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 COPY --from=build /app/target/DSUserManagement-0.0.1-SNAPSHOT.jar user-service.jar
-EXPOSE 8080
+EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "user-service.jar"]

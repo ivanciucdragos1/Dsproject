@@ -9,6 +9,6 @@ import org.springframework.web.client.RestTemplate;
 @Data
 @RequiredArgsConstructor
 public class RestClient {
-    private final String apiUrl = "http://device-service:8088/devices";
+    private final String apiUrl = "http://device-service/devices";
     private RestTemplate restTemplate;
 }
